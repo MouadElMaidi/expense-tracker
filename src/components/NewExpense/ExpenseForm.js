@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   const [data, setData] = useState({
     title: "",
     amount: "",
@@ -15,6 +15,23 @@ const ExpenseForm = () => {
     setData((prev) => {
       return { ...prev, [name]: value };
     });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const parsedData = {
+      ...data,
+      amount: parseFloat(data.amount),
+      date: new Date(data.date),
+    };
+
+    setData({
+      title: "",
+      amount: "",
+      date: "",
+    });
+
+    props.addNewExpense(parsedData);
   };
 
   return (
@@ -60,7 +77,9 @@ const ExpenseForm = () => {
         </div>
       </div>
       <div className="new-expense__actions">
-        <button type="submit">Add Expense</button>
+        <button type="submit" onClick={submitHandler}>
+          Add Expense
+        </button>
       </div>
     </form>
   );
