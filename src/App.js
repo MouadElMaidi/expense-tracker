@@ -27,15 +27,27 @@ const defaultExpenses = [
 
 const App = () => {
   const [expenses, setExpenses] = useState(defaultExpenses);
+  const [filteredYear, setFilteredYear] = useState("2020");
 
-  const addNewExpense = (data) => {
-    setExpenses((prev) => [...prev, data]);
+  const addExpenseHandler = (expense) => {
+    setExpenses((prevState) => [...prevState, expense]);
   };
+
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filterExpenses = (expense) =>
+    expense.date.getFullYear().toString() === filteredYear;
 
   return (
     <div>
-      <NewExpense addNewExpense={addNewExpense} />
-      <Expenses items={expenses} />
+      <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses
+        items={expenses.filter(filterExpenses)}
+        filteredYear={filteredYear}
+        onChangeFilter={filterChangeHandler}
+      />
     </div>
   );
 };
