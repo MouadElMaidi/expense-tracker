@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 
-const defaultExpenses = [
+const DUMMY_EXPENSES = [
   {
     id: "e1",
     title: "Toilet Paper",
@@ -26,28 +26,16 @@ const defaultExpenses = [
 ];
 
 const App = () => {
-  const [expenses, setExpenses] = useState(defaultExpenses);
-  const [filteredYear, setFilteredYear] = useState("2020");
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 
   const addExpenseHandler = (expense) => {
-    setExpenses((prevState) => [...prevState, expense]);
+    setExpenses((prevExpenses) => [expense, ...prevExpenses]);
   };
-
-  const filterChangeHandler = (selectedYear) => {
-    setFilteredYear(selectedYear);
-  };
-
-  const filterExpenses = (expense) =>
-    expense.date.getFullYear().toString() === filteredYear;
 
   return (
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses
-        items={expenses.filter(filterExpenses)}
-        filteredYear={filteredYear}
-        onChangeFilter={filterChangeHandler}
-      />
+      <Expenses items={expenses} />
     </div>
   );
 };
