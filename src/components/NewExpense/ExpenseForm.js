@@ -36,12 +36,30 @@ const ExpenseForm = (props) => {
         amount: "",
         date: "",
       });
+      props.setShowExpenseForm(false);
     }
+  };
+
+  if (props.showExpenseForm === false) {
+    return (
+      <button type="button" onClick={() => props.setShowExpenseForm(true)}>
+        Add New Expense
+      </button>
+    );
+  }
+
+  const cancelFormSubmission = () => {
+    props.setShowExpenseForm(false);
+    setUserInput({
+      title: "",
+      amount: "",
+      date: "",
+    });
   };
 
   return (
     <form onSubmit={submitHandler}>
-      <div className=".new-expense__controls">
+      <div className="new-expense__controls">
         <div className="new-expense__control">
           <label className="label" htmlFor="title">
             Title
@@ -82,6 +100,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={cancelFormSubmission}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
